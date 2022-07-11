@@ -1,31 +1,37 @@
-const Discord = require('discord.js');
-// create auth.json with your token
-const auth = require('./auth.json');
+const { Client, Intents } = require('discord.js');
 
-const client = new Discord.Client({
-    token: auth.token,
+// create config.json with your token
+const { token } = require('./config.json');
+
+const client = new Client({
     autorun: true,
+    intents: [
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+        Intents.FLAGS.GUILD_MESSAGE_TYPING,
+    ],
 });
 
-client.on('ready', () => {
+client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.on('message', (user, userID, channelID, message, evt) => {
-    // command: '!w something'
-    if (message.substring(0, 3) == '!w ') {
-        let args = message.substring(1).split(' ');
-        let cmd = args[1]; // one-worded command
-        args = args.splice(1);
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isCommand()) return;
 
-        switch (cmd) {
-            // !w me
-            case 'me':
-                bot.sendMessage({
-                    to: channelID,
-                    message: `You're ${user}. You just used ${cmd}`,
-                });
-                break;
-        }
+    const { commandName } = interaction;
+
+    if (commandName === 'ping') {
+        await interaction.reply('Pong!');
+    } else if (commandName === 'server') {
+        await interaction.reply(
+            `Available: ${interaction.guild.available}\nServer name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}\nOwner: ${interaction.guild.ownerId}\nCreated: ${interaction.guild.createdAt}`
+        );
+    } else if (commandName === 'user') {
+        await interaction.reply(
+            `Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`
+        );
     }
 });
+
+client.login(token);
