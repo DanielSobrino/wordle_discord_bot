@@ -12,11 +12,11 @@ module.exports = {
 
         if (user && user.id != interaction.user.id) {
             return interaction.reply(
-                `${user.username}'s stats:\nId: ${user.id}\nTag: ${user.tag}`
+                `***${user.username}'s stats***\nId: ${user.id}\nTag: ${user.tag}`
             );
         }
         return interaction.reply(
-            `Your id: ${interaction.user.id}\nYour tag: ${interaction.user.tag}`
+            `***Stats***\nId: ${interaction.user.id}\nTag: ${interaction.user.tag}`
         );
     },
 };
