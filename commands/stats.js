@@ -5,14 +5,16 @@ module.exports = {
         .setName('stats')
         .setDescription("Check the user's wordle stats (TODO)")
         .addUserOption((option) =>
-            option.setName('target').setDescription("The user's stats to show")
+            option.setName('target').setDescription("Display this user's stats")
         ),
     async execute(interaction) {
         const user = interaction.options.getUser('target');
-        if (user)
+
+        if (user && user.id != interaction.user.id) {
             return interaction.reply(
                 `${user.username}'s stats:\nId: ${user.id}\nTag: ${user.tag}`
             );
+        }
         return interaction.reply(
             `Your id: ${interaction.user.id}\nYour tag: ${interaction.user.tag}`
         );
