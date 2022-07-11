@@ -1,0 +1,10 @@
+{
+    "name": "wordle-bot",
+    "version": "1.0.0",
+    "description": "Wordle Bot to make no one's life easier",
+    "main": "index.js",
+    "author": "Daniel Sobrino",
+    "dependencies": {
+        "discord.js": "^12.3.0"
+    }
+}
